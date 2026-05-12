@@ -24,7 +24,7 @@ import QuickActions from "@/components/lib/QuickActions";
 import SuggestedMessages from "@/components/lib/SuggestedMessages";
 import useUser from "@/hooks/useUser";
 import TextSizeMenu from "@/components/WorkspaceChat/ChatContainer/TextSizeMenu";
-import WorkspaceModelPicker from "@/components/WorkspaceChat/ChatContainer/WorkspaceModelPicker";
+import HeaderLogo from "@/components/WorkspaceChat/ChatContainer/HeaderLogo";
 import { ChatTooltips } from "@/components/WorkspaceChat/ChatContainer/ChatTooltips";
 
 async function getTargetWorkspace() {
@@ -285,7 +285,7 @@ function HomeContent({ workspace, setWorkspace, threadSlug, setThreadSlug }) {
     >
       {isMobile && <SidebarMobileHeader />}
       <TextSizeMenu />
-      <WorkspaceModelPicker workspaceSlug={workspace?.slug} />
+      <HeaderLogo />
       <DnDFileUploaderWrapper>
         <div className="flex flex-col h-full w-full items-center justify-center">
           <div className="flex flex-col items-center w-full max-w-[750px]">

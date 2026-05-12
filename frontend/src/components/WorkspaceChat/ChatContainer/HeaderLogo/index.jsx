@@ -5,7 +5,7 @@ import paths from "@/utils/paths";
 import { isMobile } from "react-device-detect";
 import { SIDEBAR_TOGGLE_EVENT } from "@/components/Sidebar/SidebarToggle";
 
-export default function WorkspaceModelPicker({ workspaceSlug = null }) {
+export default function HeaderLogo() {
   const { logo } = useLogo();
   const [sidebarOpen, setSidebarOpen] = useState(
     () => window.localStorage.getItem("anythingllm_sidebar_toggle") !== "closed"

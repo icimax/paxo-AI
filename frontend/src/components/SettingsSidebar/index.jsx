@@ -91,7 +91,7 @@ export default function SettingsSidebar() {
                   <img
                     src={logo}
                     alt="Logo"
-                    className="rounded w-full max-h-[40px]"
+                    className="w-full max-h-[40px]"
                     style={{ objectFit: "contain" }}
                   />
                 </div>
@@ -145,7 +145,7 @@ export default function SettingsSidebar() {
           <img
             src={logo}
             alt="Logo"
-            className="rounded max-h-[24px]"
+            className="max-h-[24px]"
             style={{ objectFit: "contain" }}
           />
         </Link>

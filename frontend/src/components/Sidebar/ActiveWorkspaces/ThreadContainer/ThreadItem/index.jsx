@@ -41,37 +41,11 @@ export default function ThreadItem({
   });
   return (
     <div
-      className="w-full relative flex h-[38px] items-center border-none rounded-lg"
+      className="w-full relative flex h-[38px] items-center border-none rounded-lg mt-1"
       role="listitem"
     >
-      {/* Curved line Element and leader if required */}
       <div
-        style={{ width: THREAD_CALLOUT_DETAIL_WIDTH / 2 }}
-        className={`${
-          isActive
-            ? "border-l-2 border-b-2 border-white light:border-blue-800 z-[2]"
-            : "border-l border-b border-zinc-500 light:border-slate-400 z-[1]"
-        } h-[50%] absolute top-0 left-3 rounded-bl-lg`}
-      ></div>
-      {/* Downstroke border for next item */}
-      {hasNext && (
-        <div
-          style={{ width: THREAD_CALLOUT_DETAIL_WIDTH / 2 }}
-          className={`${
-            idx <= activeIdx && !isActive
-              ? "border-l-2 border-white light:border-blue-800 z-[2]"
-              : "border-l border-zinc-500 light:border-slate-400 z-[1]"
-          } h-[100%] absolute top-0 left-3`}
-        ></div>
-      )}
-
-      {/* Curved line inline placeholder for spacing - not visible */}
-      <div
-        style={{ width: THREAD_CALLOUT_DETAIL_WIDTH + 8 }}
-        className="h-full"
-      />
-      <div
-        className={`flex w-full items-center justify-between pr-2 group relative ${isActive ? "bg-[var(--theme-sidebar-thread-selected)] light:bg-blue-200" : "hover:bg-theme-sidebar-subitem-hover light:hover:bg-slate-300"} rounded-[4px]`}
+        className={`flex w-full items-center justify-between px-2 group relative ${isActive ? "bg-zinc-700 light:bg-blue-200" : "bg-transparent hover:bg-zinc-800/50 light:hover:bg-slate-200"} rounded-lg`}
       >
         {thread.deleted ? (
           <div className="w-full flex justify-between">

@@ -32,7 +32,7 @@ import paths from "@/utils/paths";
 import QuickActions from "@/components/lib/QuickActions";
 import SuggestedMessages from "@/components/lib/SuggestedMessages";
 import TextSizeMenu from "./TextSizeMenu";
-import WorkspaceModelPicker from "./WorkspaceModelPicker";
+import HeaderLogo from "./HeaderLogo";
 import SourcesSidebar, { SourcesSidebarProvider } from "./SourcesSidebar";
 
 export default function ChatContainer({
@@ -384,7 +384,7 @@ export default function ChatContainer({
       >
         {isMobile && <SidebarMobileHeader />}
         <TextSizeMenu />
-        <WorkspaceModelPicker workspaceSlug={workspace.slug} />
+        <HeaderLogo />
         <DnDFileUploaderWrapper>
           <div className="flex flex-col h-full w-full items-center justify-center">
             <div className="flex flex-col items-center w-full max-w-[750px]">
@@ -432,7 +432,7 @@ export default function ChatContainer({
         <TextSizeMenu />
         <div className="flex-1 min-w-0 transition-all duration-500 relative md:rounded-[16px] bg-zinc-900 light:bg-white text-white light:text-slate-900 h-full overflow-hidden border-none light:border-solid light:border light:border-theme-modal-border">
           {isMobile && <SidebarMobileHeader />}
-          <WorkspaceModelPicker workspaceSlug={workspace.slug} />
+          <HeaderLogo />
           <DnDFileUploaderWrapper>
             <div className="flex flex-col h-full w-full pb-20 md:pb-0">
               <div className="contents">

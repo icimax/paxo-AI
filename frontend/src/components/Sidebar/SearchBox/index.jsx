@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Plus, MagnifyingGlass } from "@phosphor-icons/react";
+import { Plus, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import paths from "@/utils/paths";
@@ -20,6 +20,7 @@ export default function SearchBox({ user, showNewWsModal }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState(DEFAULT_SEARCH_RESULTS);
+  const [isExpanded, setIsExpanded] = useState(false);
   const handleSearch = debounce(handleSearchDebounced, 500);
 
   async function handleSearchDebounced(e) {
@@ -39,10 +40,11 @@ export default function SearchBox({ user, showNewWsModal }) {
   }
 
   function handleReset() {
-    searchRef.current.value = "";
+    if (searchRef.current) searchRef.current.value = "";
     setSearchTerm("");
     setLoading(false);
     setSearchResults(DEFAULT_SEARCH_RESULTS);
+    setIsExpanded(false);
   }
 
   useEffect(() => {
@@ -51,29 +53,56 @@ export default function SearchBox({ user, showNewWsModal }) {
       window.removeEventListener(SEARCH_RESULT_SELECTED, handleReset);
   }, []);
 
+  if (!isExpanded) {
+    return (
+      <div className="flex items-center gap-x-2 w-[250px]">
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="text-theme-text-secondary hover:text-theme-text-primary border-none bg-transparent outline-none flex items-center justify-center p-1 rounded-md"
+          data-tooltip-id="search-icon-tooltip"
+          data-tooltip-content={t("common.search")}
+        >
+          <MagnifyingGlass size={22} weight="bold" />
+        </button>
+        <button
+          onClick={showNewWsModal}
+          className="text-theme-text-secondary hover:text-theme-text-primary border-none bg-transparent outline-none flex items-center justify-center p-1 rounded-md"
+          data-tooltip-id="new-ws-icon-tooltip"
+          data-tooltip-content={t("new-workspace.title")}
+        >
+          <Plus size={24} weight="bold" />
+        </button>
+        <Tooltip id="search-icon-tooltip" place="bottom" delayShow={300} className="tooltip !text-xs z-99" />
+        <Tooltip id="new-ws-icon-tooltip" place="bottom" delayShow={300} className="tooltip !text-xs z-99" />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex gap-x-[5px] w-full items-center h-[32px]">
+    <div className="flex gap-x-[5px] w-[250px] items-center h-[32px] relative z-30">
       <div className="relative h-full w-full flex">
         <input
           ref={searchRef}
           type="search"
+          autoFocus
           placeholder={t("common.search")}
           onChange={handleSearch}
           onReset={handleReset}
           onFocus={(e) => e.target.select()}
-          className="border-none w-full h-full rounded-lg bg-theme-sidebar-item-default pl-9 focus:pl-4 pr-1 placeholder:text-white/50 light:placeholder:text-slate-500 placeholder:font-semibold outline-none text-theme-text-primary search-input peer text-sm"
+          className="border-none w-full h-full rounded-lg bg-zinc-800 light:bg-slate-300 pl-9 pr-8 placeholder:text-white/50 light:placeholder:text-slate-500 placeholder:font-semibold outline-none text-theme-text-primary search-input peer text-sm"
         />
         <MagnifyingGlass
           size={14}
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-theme-settings-input-placeholder peer-focus:invisible"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-theme-settings-input-placeholder peer-focus:text-theme-text-primary"
           weight="bold"
-          hidden={!!searchTerm}
         />
+        <button
+          onClick={handleReset}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-theme-text-secondary hover:text-white p-1"
+        >
+          <X size={14} weight="bold" />
+        </button>
       </div>
-      <ShortWidthNewWorkspaceButton
-        user={user}
-        showNewWsModal={showNewWsModal}
-      />
       <SearchResults
         searchResults={searchResults}
         searchTerm={searchTerm}
@@ -85,7 +114,7 @@ export default function SearchBox({ user, showNewWsModal }) {
 
 function SearchResultWrapper({ children }) {
   return (
-    <div className="absolute right-0 top-[6.2%] w-full flex flex-col gap-y-[24px] h-auto bg-theme-modal-border light:bg-theme-bg-primary light:border-2 light:border-theme-modal-border rounded-lg p-[16px] z-10 max-h-[calc(100%-24px)] overflow-y-scroll no-scroll">
+    <div className="absolute right-0 top-full mt-2 w-full flex flex-col gap-y-[24px] h-auto bg-theme-modal-border light:bg-theme-bg-primary light:border-2 light:border-theme-modal-border rounded-lg p-[16px] z-10 max-h-[400px] overflow-y-scroll no-scroll">
       {children}
     </div>
   );
@@ -184,33 +213,5 @@ function SearchResultItem({ to, name, hint }) {
         )}
       </p>
     </Link>
-  );
-}
-
-function ShortWidthNewWorkspaceButton({ user, showNewWsModal }) {
-  const { t } = useTranslation();
-  if (!!user && user?.role === "default") return null;
-
-  return (
-    <>
-      <button
-        data-tooltip-id="new-workspace-tooltip"
-        data-tooltip-content={t("new-workspace.title")}
-        onClick={showNewWsModal}
-        className="border-none flex items-center justify-center bg-white  rounded-lg p-[8px] hover:bg-white/80 light:hover:bg-slate-300 transition-all duration-300"
-      >
-        <Plus
-          size={16}
-          weight="bold"
-          className="text-black light:text-slate-500"
-        />
-      </button>
-      <Tooltip
-        id="new-workspace-tooltip"
-        place="top"
-        delayShow={300}
-        className="tooltip !text-xs"
-      />
-    </>
   );
 }

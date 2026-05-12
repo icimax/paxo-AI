@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { SlidersHorizontal } from "@phosphor-icons/react";
+import { TextAa } from "@phosphor-icons/react";
 import useLoginMode from "@/hooks/useLoginMode";
 import { useTranslation } from "react-i18next";
 import { isMobile } from "react-device-detect";
@@ -63,8 +63,9 @@ export default function TextSizeMenu() {
             : "hover:bg-zinc-700 light:hover:bg-slate-200"
         }`}
       >
-        <SlidersHorizontal
+        <TextAa
           size={18}
+          weight="regular"
           className={
             showMenu
               ? "text-white light:text-slate-800"

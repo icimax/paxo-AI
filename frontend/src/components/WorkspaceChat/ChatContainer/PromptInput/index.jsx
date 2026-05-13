@@ -340,62 +340,67 @@ export default function PromptInput({
               centered={centered}
               highlightedIndexRef={toolsHighlightRef}
             />
-            <div className="bg-zinc-800 light:bg-white light:border light:border-slate-300 rounded-[20px] pwa:rounded-3xl flex flex-col px-5 overflow-hidden">
-              <AttachmentManager attachments={attachments} />
-              <div className="flex items-center">
-                <textarea
-                  id={PROMPT_INPUT_ID}
-                  ref={textareaRef}
-                  onChange={handleChange}
-                  onKeyDown={captureEnterOrUndo}
-                  onPaste={(e) => {
-                    saveCurrentState();
-                    handlePasteEvent(e);
-                  }}
-                  required={true}
-                  onFocus={() => setFocused(true)}
-                  onBlur={(e) => {
-                    setFocused(false);
-                    adjustTextArea(e);
-                  }}
-                  value={promptInput}
-                  spellCheck={Appearance.get("enableSpellCheck")}
-                  className={`border-none cursor-text max-h-[50vh] md:max-h-[350px] md:min-h-[40px] pt-[20px] w-full leading-5 text-white light:text-slate-600 bg-transparent placeholder:text-white/60 light:placeholder:text-slate-400 resize-none active:outline-none focus:outline-none flex-grow pwa:!text-[16px] ${textSizeClass}`}
-                  placeholder={t("chat_window.send_message")}
-                />
-              </div>
-              <div className="flex justify-between items-center pt-3.5 pb-3">
-                <div className="flex items-center gap-x-0.25">
-                  <div className="flex items-center gap-x-1">
-                    <AttachItem
-                      workspaceSlug={workspaceSlug}
-                      workspaceThreadSlug={threadSlug}
-                    />
-                    <AgentSessionButton
-                      sendCommand={sendCommand}
-                      promptInput={promptInput}
-                      textareaRef={textareaRef}
-                      visible={!agentSessionActive & showAgentCommand}
-                    />
-                  </div>
-                  <ToolsButton
-                    showTools={showTools}
-                    setShowTools={setShowTools}
-                    textareaRef={textareaRef}
-                    autoOpenedToolsRef={autoOpenedToolsRef}
+            <div className={`relative rounded-[22px] pwa:rounded-[26px] ${isStreaming ? "p-[1.5px] overflow-hidden shadow-[0_0_15px_rgba(70,200,255,0.2)]" : "p-[1.5px]"}`}>
+              {isStreaming && (
+                <div className="absolute top-1/2 left-1/2 w-[2000px] h-[2000px] origin-center -translate-x-1/2 -translate-y-1/2 animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_270deg,#46C8FF_360deg)] z-0" />
+              )}
+              <div className="relative z-10 bg-zinc-800 light:bg-white light:border light:border-slate-300 rounded-[20px] pwa:rounded-3xl flex flex-col px-5 overflow-hidden w-full h-full">
+                <AttachmentManager attachments={attachments} />
+                <div className="flex items-center">
+                  <textarea
+                    id={PROMPT_INPUT_ID}
+                    ref={textareaRef}
+                    onChange={handleChange}
+                    onKeyDown={captureEnterOrUndo}
+                    onPaste={(e) => {
+                      saveCurrentState();
+                      handlePasteEvent(e);
+                    }}
+                    required={true}
+                    onFocus={() => setFocused(true)}
+                    onBlur={(e) => {
+                      setFocused(false);
+                      adjustTextArea(e);
+                    }}
+                    value={promptInput}
+                    spellCheck={Appearance.get("enableSpellCheck")}
+                    className={`border-none cursor-text max-h-[50vh] md:max-h-[350px] md:min-h-[40px] pt-[20px] w-full leading-5 text-white light:text-slate-600 bg-transparent placeholder:text-white/60 light:placeholder:text-slate-400 resize-none active:outline-none focus:outline-none flex-grow pwa:!text-[16px] ${textSizeClass}`}
+                    placeholder={t("chat_window.send_message")}
                   />
                 </div>
-                <div className="flex gap-x-2 items-center">
-                  <SpeechToText sendCommand={sendCommand} />
-                  {isStreaming ? (
-                    <StopGenerationButton />
-                  ) : (
-                    <SendPromptButton
-                      formRef={formRef}
-                      promptInput={promptInput}
-                      isDisabled={isDisabled}
+                <div className="flex justify-between items-center pt-3.5 pb-3">
+                  <div className="flex items-center gap-x-0.25">
+                    <div className="flex items-center gap-x-1">
+                      <AttachItem
+                        workspaceSlug={workspaceSlug}
+                        workspaceThreadSlug={threadSlug}
+                      />
+                      <AgentSessionButton
+                        sendCommand={sendCommand}
+                        promptInput={promptInput}
+                        textareaRef={textareaRef}
+                        visible={!agentSessionActive & showAgentCommand}
+                      />
+                    </div>
+                    <ToolsButton
+                      showTools={showTools}
+                      setShowTools={setShowTools}
+                      textareaRef={textareaRef}
+                      autoOpenedToolsRef={autoOpenedToolsRef}
                     />
-                  )}
+                  </div>
+                  <div className="flex gap-x-2 items-center">
+                    <SpeechToText sendCommand={sendCommand} />
+                    {isStreaming ? (
+                      <StopGenerationButton />
+                    ) : (
+                      <SendPromptButton
+                        formRef={formRef}
+                        promptInput={promptInput}
+                        isDisabled={isDisabled}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
